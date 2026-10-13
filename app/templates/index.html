@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureMonitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #1f2937;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 520px;
+            width: calc(100% - 64px);
+        }
+
+        h1 {
+            color: #2563eb;
+            margin-bottom: 12px;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            background: #2563eb;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .error-button {
+            background: #dc2626;
+        }
+
+        #result {
+            margin-top: 20px;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>SecureMonitor</h1>
+        <p>Welcome to our DevOps demonstration.</p>
+        <p>Generate application traffic and simulate failures for monitoring.</p>
+        <p>IA - Aditi Gupta & Chinmay Parate</p>
+
+        <div class="buttons">
+            <button onclick="callApi('/api/data')">Generate Traffic</button>
+            <button onclick="callApi('/health')">Check Health</button>
+            <button class="error-button" onclick="callApi('/api/error')">
+                Simulate Error
+            </button>
+        </div>
+
+        <p id="result" role="status">Ready to generate traffic.</p>
+    </main>
+
+    <script>
+        async function callApi(endpoint) {
+            const result = document.getElementById("result");
+            result.textContent = "Sending request...";
+
+            try {
+                const response = await fetch(endpoint);
+                const body = await response.text();
+
+                result.textContent =
+                    `HTTP ${response.status}: ${body}`;
+            } catch (error) {
+                result.textContent = "Request failed: " + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
