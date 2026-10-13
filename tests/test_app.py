@@ -33,9 +33,13 @@ def test_api_error():
     assert response.status_code == 500
     assert response.json["error"] == "Simulated application error"
 
-
 def test_metrics():
     client = app.app.test_client()
     response = client.get("/metrics")
+
     assert response.status_code == 200
-    assert b"app_requests_total" in response.data
+    assert b"http_requests_total" in response.data
+    assert b"http_request_duration_seconds" in response.data
+    assert b"http_requests_failed_total" in response.data
+    assert b"app_health" in response.data
+
